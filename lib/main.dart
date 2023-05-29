@@ -15,13 +15,12 @@ class MyApp extends StatelessWidget {
   
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Test We-o',
-      home: LandingPage(),
+      home: LandingPage(), //Classe définiit plus bas, le contenu de LandingPage dépend de la presence ou non données utilisateur.
     );
   }
 }
@@ -31,9 +30,11 @@ class LandingPage extends StatelessWidget {
 
 @override
 Widget build(BuildContext context) {
+  // J'utilise un streambuilder et un snapshot pour écouter les changements d'authentification
   return StreamBuilder<User?>(
     stream: FirebaseAuth.instance.authStateChanges(),
     builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+
       if (snapshot.hasData){
         return Todolist(user: snapshot.data);
       }else{
